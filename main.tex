@@ -8,6 +8,7 @@
 \usepackage{todonotes}
 \usepackage{textcomp}
 \usepackage{eurosym}
+\usepackage{hyperref}
 
 \normalem
 
@@ -242,6 +243,13 @@ In order to solve the problem of classifying projects into disciplines taking in
 to predict the discipline mix for all projects in the data.\footnote{We use grid search over a family of linear models and random forests with different levels
 of regularisation and leaf sizes, and three-fold cross validation. The best performing classifier is a logistic regression with L2 regularisation and balanced classes.} 
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/fig__venn.png}
+    \caption{Definition of an active mission field and an active mission field}
+    \label{fig:venn_diagram}
+\end{figure}
+
 The two barcharts in the figure above show strong model performance for different
 disciplines (the only exception being physics, for the discipline classifier displays somewhat lower levels of precision and which we have not considered in the rest of our analysis).\footnote{The number of Physics projects in the active mission field was in any case negligible.}
 
@@ -252,19 +260,45 @@ diagnosis and treatment of chronic diseases by 2030'. This mission statement
 contains the following components:
 
 \begin{enumerate}
-    \item A subject: Data, Artificial Intelligence and Innovation
-    \item A verb: to Transform
-    \item An object: Prevention, early diagnosis and treatment of chronic diseases
+    \item \textbf{A subject}: Data, Artificial Intelligence and Innovation
+    \item \textbf{A verb}: to Transform
+    \item \textbf{An object}: Prevention, early diagnosis and treatment of chronic diseases
     \item A timeline: by 2030
 \end{enumerate}
 
 A research project that was perfectly relevant for the mission would contain all of these elements in its abstract. It is however unlikely that we will find such perfect matches. For example, few research projects will focus on more than one dimension of the object. Projects will frequently specialise in a single chronic disease or group of chronic diseases. Few projects will specify the dates when they expect to generate applicable findings - that is a policy goal, not a research goal. We therefore distil the mission statement into the key components that
 we would expect to find in a research project abstract. They are the methodology they use (Artificial Intelligence) and the domain where they operate (Research on chronic conditions). From the point of view of the mission, the methodology is a tool, and the domain is a problem (health challenge) that the methodology seeks to `solve’ or at least alleviate. Note that we remove from the methodologies terms such as ‘data’ or ‘innovation’ that are quite generic and likely to appear in many irrelevant abstracts. Having identified these mission components, we can define a potential mission field and an active mission field. The `potential mission field' comprises all projects that mention at least one mission component - in our case, the the solution (AI) or the challenge (chronic diseases). The `active mission field’ comprises the projects that mention all mission components - in our case, the solution and the challenge: these are the most relevant projects from the point of view of the mission (see diagram below). One dimension of impact of a mission R\&I policy is its ability to grow the active mission field at a faster rate that its mission components.
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/fig_4_venn.png}
+    \caption{Definition of an active mission field and an active mission field}
+    \label{fig:venn_diagram}
+\end{figure}
 
 \subsection{Definition and expansion of the mission vocabulary}
+
+The first step in our analysis is to identify the list of keywords that capture different components of a mission - in our case, AI and chronic diseases. In the case of AI, we use the keyword \emph{artificial intelligence} as well as other analogous terms such as \emph{machine learning} and specific methodologies and techniques such as \emph{deep learning} or \emph{text mining}.
+
+In the case of chronic diseases, there is no consensus about their definition and the range of diseases and conditions that they include. Given this, we have opted for a crowdsourced list of conditions from wikipedia. This includes the following terms: 
+
+\emph{Addiction, Aids, Alzheimer’s, Atrial fibrillation, Autoimmune disease, Bipolar 
+disorder, Blindness, Cancer, Cardiovascular disease, Cerebral palsy, Chronic condition, Chronic disease, Chronic 
+hepatitis, Chronic pain, Deafness, Depression, Endometriosis, Epilepsy, Hiv, Huntington’s, Hypertension, Lupus, Lymes disease, Parkinsons, Sclerosis, Sickle cell anemia}.
+
+We acknowledge that there is an element of arbitrariness in this definition. In future applications, the identification of the mission vocabulary should be undertaken in collaboration with the policymakers who defined the mission in order to ensure that the mission field analysis captures the relevant phenomenon.
+In order to improve the recall of our queries (that is, our ability to capture relevant entities in the data), we perform a keyword expansion in our original list of terms. This expansion identifies other keywords that are similar to the terms in our original seed list based on their proximity in a word embedding space (Mikolov, Yih, \& Zweig, 2013). This should increase the robustness of our results by helping us identify projects using synonyms for the words included in the initial search. 
+
+This expansion results in a final list of 22 keywords related to
+AI, and 174 words related to chronic diseases, with which we query the data.
+
+The exhibit next page displays stage three random example descriptions of projects that contain both AI and chronic disease keywords. It suggest that even the relatively `rough’ implementation of our vocabulary selection and keyword expansion method yields relevant projects.\footnote{All our code is available in this GitHub repo: \hyperref[https://github.com/Juan-
+Mateos/eurito_mission]{https://github.com/Juan-
+Mateos/eurito\_mission}. We provide Jupyter Notebooks that describe the steps we have taken in the analysis, and our outputs.}
+
 \subsection{Validation of results}
 \subsection{Topic modelling}
+
 \section{Findings}
 \subsection{Activity and evolution of the mission field}
 \subsection{Feasibility}
