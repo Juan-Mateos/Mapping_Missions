@@ -9,6 +9,7 @@
 \usepackage{textcomp}
 \usepackage{eurosym}
 \usepackage{hyperref}
+\usepackage{tcolorbox}
 
 \normalem
 
@@ -228,46 +229,48 @@ In principle, the framework that we develop could also be applied to other missi
 \subsection{Data sources}
 \label{subsec:data}
 
-The primary source of data that we have used in this paper is UK Research and Innovation’s Gateway to Research (GtR). 
+The primary source of data that we have used in this paper is UK Research and Innovation’s Gateway to Research (GtR). GtR is an open, linked database with information about all research activities funded by Research Councils and Innovate UK (the UK’s innovation agency), ranging from research grants in academia to innovation vouchers in industry. In January 2019 we queried GtR’s open API and extracted all the information in the database. In total, this includes information about just under 90,000 projects and 38,700 unique organisations.
 
-GtR is an open, linked database with information about all research activities funded by Research Councils and Innovate UK (the UK’s innovation agency), ranging from research grants in academia to innovation vouchers in industry. In January 2019 we queried GtR’s open API and extracted all the information in the database. In total, this includes information about just under 90,000 projects and 38,700 unique organisations.
+For each research activity, we potentially have information about its subject and its starting date, the organisations and individual researchers involved, the amounts of funding awarded, and the outputs, including publications, patents, spin-outs and technology outputs (such as software) among others.
 
-For each research activity, we potentially have information about its subject and its starting date, the organisations and individual researchers involved, the amounts of funding awarded, and the outputs, including publications, patents, spin-outs and technology outputs (such as software) to name a few.
-
-Given our reliance on text descriptions to identify relevant projects, we focus our analysis on the 72,356 projects with an informative description in the corpus (this involves removing projects with missing and uninformative descriptions -eg. boilerplate text stating that a project description is not available for confidentiality reasons). It is also worth noting that GtR only covers research activity systematically since 2006. 98\% of the projects in the data have a starting date in that year or later.
+Given our reliance on text descriptions to identify relevant projects, and our interest in understanding mission feasibility (which requires information about project outputs which are, for example, not available for Innovate UK projects),
+we focus our analysis on the 37,478 grant applications with an informative description in the corpus.\footnote{This involves removing projects with missing and uninformative descriptions such as boilerplate text stating that a project description is not available for confidentiality reasons}. It is also worth noting that GtR only covers research activity systematically since 2006. 98\% of the projects in the data have a starting date in that year or later.
 
 \subsection{Data processing and enrichment}
-One area of interest for us is the level of disciplinary and industrial diversity in a mission field. However, projects in GtR are not classified into high-level disciplines. They are however tagged with a ‘bottom-up’ taxonomy of 607 research topics. We have built a research topic co-occurrence network that we analyse using community detection methods (more specifically, the Louvain algorithm) in order to identify sets of topics that tend to cooccur frequently, representing higher level, latent, disciplines. The communities obtained through this analysis represent seven disciplines: `arts and humanities', `biological sciences', `engineering and technology', `environmental sciences', `mathematics and computing', `physics' and `social sciences'.
+One area of interest for us is the level of disciplinary and industrial diversity in a mission field. However, projects in GtR are not classified into high-level research disciplines. They are however tagged with a `bottom-up’ taxonomy of 607 research topics. We build a research topic co-occurrence network that we analyse using community detection methods (more specifically, the Louvain algorithm) in order to identify sets of topics that tend to co-occur frequently, representing higher level, latent, disciplines. The communities obtained through this analysis represent seven disciplines: \emph{`arts and humanities'}, \emph{`biological sciences'}, \emph{`engineering and technology'}, \emph{`environmental sciences'}, \emph{`mathematics and computing'}, \emph{`physics' and `social sciences'}.
 
-In order to solve the problem of classifying projects into disciplines taking into account that interdisciplinary projects can belong to more than one discipline, we identify `pure discipline’ projects that only have research topics from one discipline community and combine them into a labelled dataset that we use to train a machine learning model that predicts project discipline labels based on the (pre-processed) text in their abstract.\footnote{82\% of the projects in the data have research topics that belong to a single discipline. Since the Medical Research Council does not use research topics to label its projects, we assume that all the projects it funds are in the Medical Sciences.} We then use this model
-to predict the discipline mix for all projects in the data.\footnote{We use grid search over a family of linear models and random forests with different levels
-of regularisation and leaf sizes, and three-fold cross validation. The best performing classifier is a logistic regression with L2 regularisation and balanced classes.} 
+We use a supervised machine learning approach to classify projects into disciplines, addressing the fact that interdisciplinary projects can belong to more than one discipline. We identify `pure discipline’ projects that only have research topics from one discipline community and combine them into a labelled dataset that we use to train a machine learning model that predicts project discipline labels based on the (pre-processed) text in their abstract.\footnote{82\% of the projects in the data have research topics that belong to a single discipline. Since the Medical Research Council does not use research topics to label its projects, we assume that all the projects it funds are in the Medical Sciences.} We then use this model to predict the discipline mix for all projects in the data. Figure \ref{fig:discipline_classifier} shows model performance.
+
+\footnote{We use grid search over a family of linear models and random forests with different levels of regularisation and leaf sizes, and three-fold cross validation. The best performing classifier is a logistic regression with L2 regularisation and balanced classes.} 
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/fig__venn.png}
-    \caption{Definition of an active mission field and an active mission field}
-    \label{fig:venn_diagram}
+    \includegraphics[width=\textwidth]{figures/fig_3_model_validation.png}
+    \caption{Figures with the result of the discipline classifier. The top barchart presents a stacked confusion matrix for every discipline representing different classification outcomes, and the bottom barchart presents the precision and recall of every model}
+    \label{fig:discipline_classifier}
 \end{figure}
 
-The two barcharts in the figure above show strong model performance for different
-disciplines (the only exception being physics, for the discipline classifier displays somewhat lower levels of precision and which we have not considered in the rest of our analysis).\footnote{The number of Physics projects in the active mission field was in any case negligible.}
+Our discipline classifier performs strongly in most cases (the only exception being physics, where the discipline classifier displays lower levels of precision so we exclude it from the rest of our analysis).\footnote{The number of Physics projects in the active mission field was in any case negligible so our results are not affected by this decision.}
 
-\subsection{Operationalisation of a mission}
-In order to answer our research questions, we need to identify projects that are relevant for a given mission. We do this using the mission statement, in the case of this paper, to `use
-data, Artificial Intelligence and innovation to transform the prevention, early
-diagnosis and treatment of chronic diseases by 2030'. This mission statement
-contains the following components:
+\subsection{Operationalising a mission}
+In order to answer our research questions, we need to identify projects in the active mission field for the AI and Chronic Diseases mission. To do this, we rely on the mission statement: to \textit{`use data, Artificial Intelligence and innovation to transform the prevention, early
+diagnosis and treatment of chronic diseases by 2030'}. 
+
+This mission statement contains the following components:
 
 \begin{enumerate}
-    \item \textbf{A subject}: Data, Artificial Intelligence and Innovation
-    \item \textbf{A verb}: to Transform
-    \item \textbf{An object}: Prevention, early diagnosis and treatment of chronic diseases
-    \item A timeline: by 2030
+    \item \textbf{A subject:} Data, Artificial Intelligence and Innovation
+    \item \textbf{A verb:} to Transform
+    \item \textbf{An object:} Prevention, early diagnosis and treatment of chronic diseases
+    \item \textbf{A timeline:} by 2030
 \end{enumerate}
 
-A research project that was perfectly relevant for the mission would contain all of these elements in its abstract. It is however unlikely that we will find such perfect matches. For example, few research projects will focus on more than one dimension of the object. Projects will frequently specialise in a single chronic disease or group of chronic diseases. Few projects will specify the dates when they expect to generate applicable findings - that is a policy goal, not a research goal. We therefore distil the mission statement into the key components that
-we would expect to find in a research project abstract. They are the methodology they use (Artificial Intelligence) and the domain where they operate (Research on chronic conditions). From the point of view of the mission, the methodology is a tool, and the domain is a problem (health challenge) that the methodology seeks to `solve’ or at least alleviate. Note that we remove from the methodologies terms such as ‘data’ or ‘innovation’ that are quite generic and likely to appear in many irrelevant abstracts. Having identified these mission components, we can define a potential mission field and an active mission field. The `potential mission field' comprises all projects that mention at least one mission component - in our case, the the solution (AI) or the challenge (chronic diseases). The `active mission field’ comprises the projects that mention all mission components - in our case, the solution and the challenge: these are the most relevant projects from the point of view of the mission (see diagram below). One dimension of impact of a mission R\&I policy is its ability to grow the active mission field at a faster rate that its mission components.
+A research project that was completely within the mission would contain all of these elements in its abstract. It is however unlikely that we will find such a match in the data. For instance, few research projects will focus on more than one dimension of the object. Projects will frequently specialise in a single chronic disease or group of chronic diseases. Few projects will specify the dates when they expect to generate applicable findings since that is a policy goal, not a research goal.  We therefore distil the mission statement into the key components that
+we would expect to find in a research project abstract. They are the methodology they use (Artificial Intelligence) and their domain (Research on chronic conditions). 
+
+From the point of view of the mission, the methodology is a tool, and the domain is a problem (health challenge) that the methodology seeks to address. Note that we remove from the methodologies terms such as ‘data’ or ‘innovation’ that are rather generic and likely to appear in many irrelevant abstracts. 
+
+Having identified these mission components, we can define a potential mission field and an active mission field. The `potential mission field' comprises all projects that mention at least one mission component - in our case, the tool (AI) or the challenge (chronic diseases). The `active mission field’ comprises the projects that mention all mission components - in our case, the tool and the challenge: these are the most relevant projects from the point of view of the mission (see Figure \ref{fig:venn_diagram} below). One dimension of impact of a mission R\&I policy would be its ability to grow the active mission field at a faster rate that its mission components (reflecting increasing connectivity between them).
 
 \begin{figure}[!ht]
     \centering
@@ -277,28 +280,59 @@ we would expect to find in a research project abstract. They are the methodology
 \end{figure}
 
 \subsection{Definition and expansion of the mission vocabulary}
+\label{subsec:vocabulary}
 
-The first step in our analysis is to identify the list of keywords that capture different components of a mission - in our case, AI and chronic diseases. In the case of AI, we use the keyword \emph{artificial intelligence} as well as other analogous terms such as \emph{machine learning} and specific methodologies and techniques such as \emph{deep learning} or \emph{text mining}.
+The first step in our analysis is to identify the list of keywords that capture different components of a mission - in our case, AI and chronic diseases. In the case of AI, we use the keyword \emph{artificial intelligence} as well as other related terms such as \emph{machine learning} and specific methodologies and techniques such as \emph{deep learning} or \emph{text mining}.
 
 In the case of chronic diseases, there is no consensus about their definition and the range of diseases and conditions that they include. Given this, we have opted for a crowdsourced list of conditions from wikipedia. This includes the following terms: 
 
-\emph{Addiction, Aids, Alzheimer’s, Atrial fibrillation, Autoimmune disease, Bipolar 
-disorder, Blindness, Cancer, Cardiovascular disease, Cerebral palsy, Chronic condition, Chronic disease, Chronic 
-hepatitis, Chronic pain, Deafness, Depression, Endometriosis, Epilepsy, Hiv, Huntington’s, Hypertension, Lupus, Lymes disease, Parkinsons, Sclerosis, Sickle cell anemia}.
+\emph{Addiction, Aids, Alzheimer’s, Atrial fibrillation, Autoimmune disease, Bipolar disorder, Blindness, Cancer, Cardiovascular disease, Cerebral palsy, Chronic condition, Chronic disease, Chronic hepatitis, Chronic pain, Deafness, Depression, Endometriosis, Epilepsy, Hiv, Huntington’s, Hypertension, Lupus, Lymes disease, Parkinsons, Sclerosis, Sickle cell anemia}.
 
-We acknowledge that there is an element of arbitrariness in this definition. In future applications, the identification of the mission vocabulary should be undertaken in collaboration with the policymakers who defined the mission in order to ensure that the mission field analysis captures the relevant phenomenon.
-In order to improve the recall of our queries (that is, our ability to capture relevant entities in the data), we perform a keyword expansion in our original list of terms. This expansion identifies other keywords that are similar to the terms in our original seed list based on their proximity in a word embedding space (Mikolov, Yih, \& Zweig, 2013). This should increase the robustness of our results by helping us identify projects using synonyms for the words included in the initial search. 
+We acknowledge that there is an element of arbitrariness in this definition of chronic diseases. In future applications, the identification of the mission vocabulary should be undertaken in collaboration with the policymakers who defined the mission in order to ensure that the mission field analysis captures the relevant phenomenon.
 
-This expansion results in a final list of 22 keywords related to
-AI, and 174 words related to chronic diseases, with which we query the data.
+In order to improve the recall of our queries (that is, our ability to capture relevant entities in the data), we perform a keyword expansion in our original list of terms. This expansion identifies other keywords that are similar to the terms in our original seed list based on their proximity in a word embedding space estimated using the \texttt{Word2Vec} algorithm (Mikolov, Yih, \& Zweig, 2013). This way, we hope to increase the robustness of our results by identifying projects using synonyms of the words included in the initial search.
 
-The exhibit next page displays stage three random example descriptions of projects that contain both AI and chronic disease keywords. It suggest that even the relatively `rough’ implementation of our vocabulary selection and keyword expansion method yields relevant projects.\footnote{All our code is available in this GitHub repo: \hyperref[https://github.com/Juan-
+In order to obtain satisfactory results, we need to tune two parameters in our search algorithm. The first one is the \texttt{window} that \texttt{Word2Vec} considers when identifying the context for a given word (short windows are better for capturing synonyms) and the second is the \texttt{similarity} threshold that we use to identify similar words within the word embedding space. We consider 30 combinations of values for these two parameters and then calculate what is the `model support' for different projects, that is, what proportion of models of classify a project in category (eg AI). 
+
+We split projects into groups based on their rank within the model support distribution and validate a subset of them manually in order to decide a cut-off point in model support. This entails, for every group, checking five projects with a model support above their threshold, and five projects below their threshold. This is the equivalent of checking for true positives (projects that would have been classified in a category eg. AI because they have model support equal above the threshold) and false negatives (projects that would not have been classified in the category because their model support is below the threshold). This leads to select a validation threshold in the seven decile of model support, with a cutoff threshold of $0.46$ (i.e we consider as AI any projects which contains keywords related to AI according to at least 46\% of the \texttt{Word2Vec} models that we trained). At this threshold, our classification of projects into AI had a precision and recall scores of 90\%.\footnote{We classify projects into the chronic disease category if their model support is above 50\%.}
+
+The exhibit next page displays example descriptions of projects that contain both AI and chronic disease keywords. It suggest that even the relatively basic implementation of our vocabulary selection and keyword expansion method yields relevant projects.\footnote{All our code is available in this GitHub repo: \hyperref[https://github.com/Juan-
 Mateos/eurito_mission]{https://github.com/Juan-
 Mateos/eurito\_mission}. We provide Jupyter Notebooks that describe the steps we have taken in the analysis, and our outputs.}
 
-\subsection{Validation of results}
+\begin{tcolorbox}[fontupper=\small, parbox=false]
+
+\textbf{Efficient and Robust Assessment of Cardiovascular Disease Using Machine Learning and Ultrasound Imaging}
+
+ABSTRACT EXCERPT: Heart disease is the number one killer in the world. Currently the best way of diagnosing heart disease and planning its treatment is to use a magnetic resonance imaging (MRI) scanner. However, MRI scanners are expensive and not typically used for scanning hearts in most UK hospitals. Therefore, the best diagnosis and treatment are not available to all patients. Currently the most common way of assessing heart disease is through the use of an ultrasound scanner. Although ultrasound has many advantages, it does not have such good image quality as MRI and so there are difficulties associated with its use in heart disease management. If the 'gold standard' quality of assessment from MRI could somehow be made feasible using ultrasound it would have great potential benefits for patients.
+
+This is the aim of this project. We aim to use state-of-the-art machine learning techniques combined with rich multimodal imaging data to produce a computer model of heart disease and its associations with heart shape and motion. By incorporating MRI as well as ultrasound imaging data into the model we can exploit the power of MRI based only on ultrasound imaging. This would make possible a low cost and easy clinical pathway to the best care possible.
+
+\textbf{Adaptive Automated Scientific Laboratory}
+ABSTRACT EXCERPT: Our proposal integrates the scientific method with 21st century automation technology, with the goal of making scientific discovery more efficient (cheaper, faster, better). A Robot Scientist is a physically implemented laboratory automation system that exploits techniques from the field of artificial intelligence to execute cycles of scientific experimentation. Our vision is that within 10 years many scientific discoveries will be made by teams of human and robot scientists, and that such collaborations between human and robot scientists will produce scientific knowledge more efficiently than either could alone. In this way the productivity of science will be increased, leading to societal benefits: better food security, better medicines, etc. The Physics Nobel Laureate Frank Wilczek has predicted that the best scientist in one hundred years time will be a machine. The proposed project aims to take that prediction several steps closer.
+
+We will develop the AdaLab (an Adaptive Automated Scientific Laboratory) framework for semi-automated and automated knowledge discovery by teams of human and robot scientists. This framework will integrate and advance a number of ICT methodologies...
+
+\textbf{Distributed Intelligent Learning Environment for Mammographic Screening}
+
+ABSTRACT EXCERPT: Breast cancer is one of the major causes of death in the modern world. In the UK there is a national screening programme which women between ages of 50 and 70 can attend. Breast cancer screening involves taking breast X-Rays (called mammograms) and examining them for signs of cancer. The idea is that if cancers are detected and treated early (before there are noticeable symptoms) then treatments can be more effective. Examining mammograms for cancer is a highly skilled job carried out by trained radiologists who have to detect what are often very subtle abnormalities occurring only in a small proportion of the cases they examine. Our research will explore how computers can be effectively used to train radiologists to undertake the demanding task of breast screening. To do this we will develop and test an Intelligent Tutoring and e-Learning Environment (ITeLE) to provide instruction, support, practice and feedback for trainee radiologists intending to specialize in mammography...
+\end{tcolorbox}
+
 \subsection{Topic modelling}
 
+In Subsection \ref{subsec:trajectory} we want to analyse the thematic composition of the active mission field - that is, what are the topics for research combining AI and chronic diseases in the UK - what applications do they seek to develop, with what goal and in what disease area. This should help us produce indicators about the distribution of activity in the mission field, and whether it is becoming more concentrated or diversified. 
+
+We seek to identify these topics in an automated, unsupervised way using \texttt{TopBSM}, a topic model based on the stochastic block model, a generative model to detect communities in graphs. \texttt{TopSBM} represents corpora of documents containing words as a bipartite graph where words that co-occur in documents are connected in the network, and where documents that share words are also connected. Communities of words in the network represent topics and communities of documents represent segments. Community detection is performed hierarchically making it possible to identify topics (and segments) with different levels of detail. \texttt{TopSBM} has some important advantages over alternative topic modeling algorithms such as Latent Dirichlet allocation: it makes weaker assumptions about the distribution that generates topics in a corpus, and it is able to estimate the number of topics in a document automatically. 
+
+We have trained \texttt{TopSBM} on our grant corpus after pre-processing (including tokenising, removal of rare word and estimation of bigrams and trigrams). Figure depicts the different levels in the hierarchy of our topic model.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/fig_4_venn.png}
+    \caption{Definition of an active mission field and an active mission field}
+    \label{fig:venn_diagram}
+\end{figure}
+ 
 \section{Findings}
 \subsection{Activity and evolution of the mission field}
 \subsection{Feasibility}
@@ -306,6 +340,7 @@ Mateos/eurito\_mission}. We provide Jupyter Notebooks that describe the steps we
 \subsubsection{Disciplines}
 \subsubsection{Actors}
 \subsection{Trajectory of the mission field}
+\label{subsec:trajectory}
 \section{Discussion and conclusions}
 
 
