@@ -371,33 +371,78 @@ This analysis suggests that the active mission field is expanding as researchers
 \subsubsection{Disciplines}
 
 What is the disciplinary participation in the active mission field?
-Below we display the discipline distribution of projects in the active mission field and the mission components after allocating each project to its discipline with the highest probability according to our discipline classifier. It shows an almost even split between active mission field projects approaching the challenge from a Mathematics and Computing angle, and projects adopting a Medical Sciences perspective, followed by Engineering and Technology projects and projects from the biological sciences and biotechnology. By contrast, Social sciences and Arts and Humanities have very limited representation in the mission field, suggesting that social, organisational, policy and cultural dimensions of the use of AI to
-treat chronic diseases are not receiving much attention yet.
+Figure \ref{fig:disc_mix} shows the discipline distribution of projects in the active mission field and the mission components after allocating each project to its discipline with the highest probability according to our discipline classifier. 
+
+It shows that the mission field is dominated by projects that approach the chronic disease challenge from a Mathematics and Computing angle, followed by projects adopting a Medical Sciences perspective, Engineering and Technology projects and projects from the Biological sciences and Biotechnology. By contrast, Social sciences and Arts and Humanities have very limited representation in the mission field, suggesting that social, organisational, policy and cultural dimensions of the use of AI to treat chronic diseases are not receiving much attention yet.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth]{}
-    \caption{Share of activity in different research field accounted by different years in terms of number of projects and levels of funding (left column), and share of active mission field in AI and chronic diseases in terms of projects and levels of funding (right column)}
-    \label{fig:trends}
+    \includegraphics[width=\textwidth]{figures/fig_8_disciplines.pdf}
+    \caption{Share of activity by category in each discipline (after classifying each project in its top discipline)}
+    \label{fig:disc_mix}
 \end{figure}
 
-When we look at the evolution of the disciplinary mix in the active mission field, we see rapid growth in the number of medical science projects, suggesting that after an initial period where most applications of AI in the chronic disease area were dominated by computer scientists, AI methodologies are now starting to be deployed by medical practitioners.
+When we consider the evolution of the disciplinary mix in the active mission field in Figure \ref{fig:disc_mix}, we see recent growth in the number of medical science and biological science projects, suggesting that after an initial period where most applications of AI in the chronic disease area were dominated by computer scientists, AI methodologies are now starting to be deployed by medical researchers and bio-technologists.
 
-Figure 9
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig_9_disc_trends.pdf}
+    \caption{Projects in the active mission field by discipline and year (after classifying each project in its top discipline)}
+    \label{fig:disc_mix}
+\end{figure}
 
-The analysis above has assumed that each project belongs to a single discipline. However, we can exploit the fact that our machine learning classifier generates a vector of discipline probabilities for each project in order to study discipline overlaps. The figure below shows the number of disciplines presents in projects in the active mission field and the mission
-components.\footnote{We set a threshold of 0.1 to determine whether a discipline is present in a project or not. The results are robust to changes in this threshold.} It shows that projects in the active mission field have a lower propensity to display a single discipline than projects in AI or Chronic Diseases, and a higher propensity to display projects with a presence of two and even three disciplines, consistent with the idea that activity in a mission field is more likely to involve broader disciplinary combinations.
+The analysis above classifies each project into a single discipline. However, we can exploit the fact that our discipline classifier generates a vector of discipline probabilities for each project in order to study disciplinary overlaps. 
 
-Figure 10
+Figure \ref{fig:disc_count_discrete} shows the number of disciplines present in projects in the active mission field and the mission components.\footnote{We set a threshold of 0.1 to determine whether a discipline is present in a project or not. The results are robust to changes in this threshold.} It shows that projects in the active mission field have a lower propensity to display a single discipline than projects in AI or Chronic Diseases, and a higher propensity to display projects with a presence of two and even three disciplines, consistent with the idea that activity in a mission field is more likely to involve broader disciplinary combinations. This view is confirmed in Figure 11, where we present a density plot of entropy in the discipline probability vector: projects in the active mission field tend to have larger entropy values, reflecting the co-occurrence of multiple disciplines in them.
 
-Figure 11
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig_10_disc_discrete.pdf}
+    \caption{Discipline count distribution by category}
+    \label{fig:disc_count_discrete}
+\end{figure}
 
-Above we showed that projects in the active mission field tend to combine more disciplines. The figure below shows pairwise discipline combinations as a share of projects in the active mission field and its mission components. It shows that projects in the active mission field tend to combine Engineering and Technology with Medical Sciences, Medical Sciences with Mathematics and Computing, and Engineering and Technology with Mathematics and Computing. The figure also shows a stronger propensity towards disciplinary combinations in
-the AI field, also including non-negligible amounts of crossover with Social Sciences and Arts and Humanities. The main area of crossover in the Chronic Diseases mission component is between Medical Sciences and Biological Sciences.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig_11_disc_histogram.pdf}
+    \caption{Entropy distribution by category}
+    \label{fig:disc_count_discrete}
+\end{figure}
 
-\subsubsection{Disciplines}
+The analysis above has showed that projects in the AI-chronic disease active mission field tend to combine more disciplines - but what are these?
+
+Figure \ref{fig:disc_pairs} presents pairwise discipline combinations as a share of projects in the active mission field and its mission components. It shows that projects in the active mission field tend to combine Engineering and Technology with Medical Sciences, Medical Sciences with Mathematics and Computing, and Engineering and Technology with Mathematics and Computing. 
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig_12_disc_combs.pdf}
+    \caption{Pairwise combinations of disciplines in different categories}
+    \label{fig:disc_pairs}
+\end{figure}
+
 \subsubsection{Actors}
-\subsubsection{Outputs}
+
+One of the goals of mission-driven policy is to lower barriers to entry for new actors in the innovation system. Here we develop indicators capturing whether actors in the fields we have been considering in our analysis (the active mission of field of AI and chronic diseases, and its mission components) are new entrants or seasoned veterans in the UK R&I system.
+
+First we consider `age’ - here we want to compare the amount of time that organisations in different fields have spent in the R&I system as beneficiaries of research grants. To estimate this, we calculate the first year that an actor received a grant in our data and then average this value over all actors in a given field. Contrary to expectation, we find that organisations participating in the active mission field tend to be older than those participating in AI and chronic diseases (‘All’ set of bars in the
+figure below). However, when we focus our analysis on organisations that participate exclusively in the mission field (thus excluding many large institutions that are active in it and many other fields), we find that the average time that an organisation has spent in the UK R\&D system is lower for participants in the active mission field than is the case for organisations that participate exclusively in projects in the chronic disease field).
+
+Fig 13
+
+The figure below performs a similar exercise but focusing on the number of R&I projects that organisations in different fields have participated in, once again distinguishing between organisations that have participated in projects in a field amongst other things, and those that specialise exclusively in a field, and calculating medians instead of means to reduce the impact of outliers with thousands of projects (such as Russell Group Universities). 
+
+Similarly to what we saw above, participants in the active mission field tend to be more active in the R&I system, while specialists are similar to organisations in other fields, with a median of project participation of one.
+
+We conclude our analysis of mission actors by exploring some of the top organisations in the active mission field. Here we calculate relative advantage indices that normalise an organisation’s share of activity in a field by its share of activity in all fields in order to capture whether it is specialised in a way that suggests a comparative knowledge advantage in a the field. One limitation of RAIs is that their values can be noisy for organisations with lower levels of activity so we focus on organisations with more activity. The figure below displays the 50 organisations with the highest specialisation in our active mission field, extracted from amongst the two hundred organisations with highest overall activity. We see that this list includes a varied range of universities, technology and biomedical companies,
+charities and public sector organisations. Interestingly, only 11 organisations in the top 50 of overall research activity appear in the top 50 for mission field activity, in line with the idea that a focus on missions might benefit less elite actors combining knowledge to address practical challenges.
+
+Figure 14
+
+Finally, we consider the link between an organisation’s share of all activity in different mission fields, and in the total of publicly funded activity in the UK. The heatmap below presents bivariate rank correlations for those variables. Its results further reinforce the idea that activity around missions might create new opportunities for organisations outside the elite of the R&I system: the correlation between share of activity in a mission field and share of total activity is lower than for the mission components. Also we note with interest that the correlation between share of mission components and share of mission activity is stronger for AI than chronic conditions, suggesting that organisations with strong AI capabilities have been able to deploy them to address chronic diseases instead of the other way around, although this situation might be changing as the number of Medical Sciences projects applying AI methods increase.
+
+Figure 15
+
+\subsection{Outputs}
 \subsection{Trajectory of the mission field}
 \label{subsec:trajectory}
 \section{Discussion and conclusions}
