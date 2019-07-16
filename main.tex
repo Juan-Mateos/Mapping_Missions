@@ -344,18 +344,60 @@ Figure 6 considers the representation of chronic disease projects in AI compared
 
 This finding suggests that the mission's rationale - to spur the deployment of AI systems in the health domain - is valid given that AI systems are currently underrepresented in it.\footnote{Here, it is worth noting that some AI projects are likely to be basic and therefore not applied in any fields. It would be useful to compare the representation of AI in chronic diseases with other application fields.} 
 
-fig 6
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig_6_mission_levels.pdf}
+    \caption{Representation of AI in chronic disease research and vice versa}
+    \label{fig:active_field}
+\end{figure}
 
-We move in to consider the evolution of activity around the mission field in figure 7. The two linecharts in the left compare the share of all projects (first row) and funding (second row) in a category for every year. The two line-charts on the right consider the share of the active mission field in each mission component. We use 2-year moving averages in both cases to remove some of the volatility in the series.
+We move on to consider the evolution of the active mission field in figure \ref{fig:trends}. The two linecharts in the left compare the share of all projects (first row) and funding (second row) in a category for every year. The two line-charts on the right consider the share of the active mission field in each mission component. We use 2-year moving averages in both cases to remove some of the volatility in the series.
 
-Fig 7
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig_7_trends.pdf}
+    \caption{Share of activity in different research field accounted by different years in terms of number of projects and levels of funding (left column), and share of active mission field in AI and chronic diseases in terms of projects and levels of funding (right column)}
+    \label{fig:trends}
+\end{figure}
 
-The first set of figures shows a steep increase in project and funding activity for AI and the active mission field in recent times (and particularly since 2014). By contrast, relative amounts of project activity and funding for chronic diseases has remained stable (or even declined) in recent times. We also see an upwards trend in the share of AI projects focused on chronic diseases, and in the share of chronic disease projects that use AI methods. This trend is less visible when we consider amounts of funding instead of number of projects, suggesting smaller, perhaps exploratory projects. The analysis above suggests that the active mission field is developing as researchers start to apply AI methods in the field of chronic diseases - it is important to note that much of this activity precedes the announcement of the UK grand challenge in 2018, something to take into account when evaluating the impact of this challenge.
+The left column reveals a steep increase in project and funding activity for the active mission field in recent years (and particularly since 2014). By contrast, relative amounts of project activity and funding for chronic diseases has remained stable in the same period.
 
-\subsection{Feasibility}
+We also see an upwards trend in the share of AI projects focused on chronic diseases, and in the share of chronic disease projects that use AI methods, both in terms of number of projects and level of funding.
+
+This analysis suggests that the active mission field is expanding as researchers begin applying AI methods in the domain chronic diseases - it is important to note that most of this activity precedes the announcement of the UK grand challenge in 2018, something that will have to be taken into account when evaluating the impact of the mission.
+
 \subsection{Composition of the mission field}
+
+\subsubsection{Disciplines}
+
+What is the disciplinary participation in the active mission field?
+Below we display the discipline distribution of projects in the active mission field and the mission components after allocating each project to its discipline with the highest probability according to our discipline classifier. It shows an almost even split between active mission field projects approaching the challenge from a Mathematics and Computing angle, and projects adopting a Medical Sciences perspective, followed by Engineering and Technology projects and projects from the biological sciences and biotechnology. By contrast, Social sciences and Arts and Humanities have very limited representation in the mission field, suggesting that social, organisational, policy and cultural dimensions of the use of AI to
+treat chronic diseases are not receiving much attention yet.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{}
+    \caption{Share of activity in different research field accounted by different years in terms of number of projects and levels of funding (left column), and share of active mission field in AI and chronic diseases in terms of projects and levels of funding (right column)}
+    \label{fig:trends}
+\end{figure}
+
+When we look at the evolution of the disciplinary mix in the active mission field, we see rapid growth in the number of medical science projects, suggesting that after an initial period where most applications of AI in the chronic disease area were dominated by computer scientists, AI methodologies are now starting to be deployed by medical practitioners.
+
+Figure 9
+
+The analysis above has assumed that each project belongs to a single discipline. However, we can exploit the fact that our machine learning classifier generates a vector of discipline probabilities for each project in order to study discipline overlaps. The figure below shows the number of disciplines presents in projects in the active mission field and the mission
+components.\footnote{We set a threshold of 0.1 to determine whether a discipline is present in a project or not. The results are robust to changes in this threshold.} It shows that projects in the active mission field have a lower propensity to display a single discipline than projects in AI or Chronic Diseases, and a higher propensity to display projects with a presence of two and even three disciplines, consistent with the idea that activity in a mission field is more likely to involve broader disciplinary combinations.
+
+Figure 10
+
+Figure 11
+
+Above we showed that projects in the active mission field tend to combine more disciplines. The figure below shows pairwise discipline combinations as a share of projects in the active mission field and its mission components. It shows that projects in the active mission field tend to combine Engineering and Technology with Medical Sciences, Medical Sciences with Mathematics and Computing, and Engineering and Technology with Mathematics and Computing. The figure also shows a stronger propensity towards disciplinary combinations in
+the AI field, also including non-negligible amounts of crossover with Social Sciences and Arts and Humanities. The main area of crossover in the Chronic Diseases mission component is between Medical Sciences and Biological Sciences.
+
 \subsubsection{Disciplines}
 \subsubsection{Actors}
+\subsubsection{Outputs}
 \subsection{Trajectory of the mission field}
 \label{subsec:trajectory}
 \section{Discussion and conclusions}
