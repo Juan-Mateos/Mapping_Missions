@@ -60,7 +60,7 @@ by 2030'} (Mazzucato, 2018), or \textit{`Ensure that people can enjoy at least 5
     \centering
     \includegraphics[width=0.5\textwidth]{figures/fig1_example.png}
     \caption{A mission example (taken from Mazzucatto (2018))}
-    \label{fig:my_label}
+    \label{fig:mission_example}
 \end{figure}
 
 Missions could help bridge worrying disconnects between technology development, societal well-being and productivity growth by actively encouraging the deployment of new technologies to tackle societal challenges and supporting the exploration of new technological trajectories where `new ideas are less hard to find' (\todo{add ref} Bloom etc). At the same time, missions present important risks: they could fail to target the most significant societal challenges resulting in a loss of legitimacy for their administrators and R\&I policy more widely, they may be unrealistic or unfeasible, or `pick winners' that are commercially unsustainable, rent-seeking or induce premature lock-in to weaker technologies. 
@@ -171,13 +171,13 @@ In this paper we develop and explore prototype indicators operationalising key d
 
 We define a mission field as the set of R&I activities that are directly relevant for a mission. We establish relevance using a semantic approach that extracts keywords from the definition of a mission and then queries the funding corpus with a version of that keyword set expanded via semantic similarity in a word embedding space. Having identified relevant projects, we then calculate indicators in the mission field. All these activities are described in further detail in the Methodology and Findings sections below.
 
-We focus on dimensions 2, 3, and 4 in Table 1, considering actors, activities and networks but not societal needs and impacts (see figure below for a summary). This decision is dictated by the data source we are focusing on (which is limited in its coverage of information about societal needs), and the fact that the innovation mission we are focusing on was only recently announced so it would be unrealistic to expect them to have produced visible impacts so early after launch. We discuss potential avenues to generate indicators about other dimensions of the evidence base for missions in Section \ref{sec:conclusion}.
+We focus on dimensions 2, 3, and 4 in Table 1, considering actors, activities and networks but not societal needs and impacts (see Figure \ref{fig:diagram} below for a summary). This decision is dictated by the data source we are focusing on (which is limited in its coverage of information about societal needs), and the fact that the innovation mission we are focusing on was only recently announced so it would be unrealistic to expect them to have produced visible impacts so early after launch. We discuss potential avenues to generate indicators about other dimensions of the evidence base for missions in Section \ref{sec:conclusion}.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{figures/fig_2_mission_diagram.png}
-    \caption{Pathways to impact in a mission, and }
-    \label{fig:my_label}
+    \includegraphics[width=0.9\textwidth]{figures/fig_2_diagram.png}
+    \caption{Pathways to impact in a mission, and this paper`s focus}
+    \label{fig:diagram}
 \end{figure}
 
 It is important to note that the UK Government only announced the Grand Challenge Mission about AI and chronic diseases in 2018. This means that much of our analysis will not capture activities supported by the mission or its impact, but activities already taking place before the mission was launched. In that sense, our analysis should be seen as providing a baseline for the impact of the mission - an important function nevertheless.
@@ -211,6 +211,7 @@ Focusing on the UK grand challenge to `Use data, Artificial Intelligence and inn
 \end{enumerate}
 
 \section{Methodology}
+\label{sec:methodology}
 
 
 
@@ -224,8 +225,43 @@ In principle, the framework that we develop could also be applied to other missi
 
 
 \subsection{Data sources}
+\label{subsec:data}
+
+The primary source of data that we have used in this paper is UK Research and Innovation’s Gateway to Research (GtR). 
+
+GtR is an open, linked database with information about all research activities funded by Research Councils and Innovate UK (the UK’s innovation agency), ranging from research grants in academia to innovation vouchers in industry. In January 2019 we queried GtR’s open API and extracted all the information in the database. In total, this includes information about just under 90,000 projects and 38,700 unique organisations.
+
+For each research activity, we potentially have information about its subject and its starting date, the organisations and individual researchers involved, the amounts of funding awarded, and the outputs, including publications, patents, spin-outs and technology outputs (such as software) to name a few.
+
+Given our reliance on text descriptions to identify relevant projects, we focus our analysis on the 72,356 projects with an informative description in the corpus (this involves removing projects with missing and uninformative descriptions -eg. boilerplate text stating that a project description is not available for confidentiality reasons). It is also worth noting that GtR only covers research activity systematically since 2006. 98\% of the projects in the data have a starting date in that year or later.
+
 \subsection{Data processing and enrichment}
+One area of interest for us is the level of disciplinary and industrial diversity in a mission field. However, projects in GtR are not classified into high-level disciplines. They are however tagged with a ‘bottom-up’ taxonomy of 607 research topics. We have built a research topic co-occurrence network that we analyse using community detection methods (more specifically, the Louvain algorithm) in order to identify sets of topics that tend to cooccur frequently, representing higher level, latent, disciplines. The communities obtained through this analysis represent seven disciplines: `arts and humanities', `biological sciences', `engineering and technology', `environmental sciences', `mathematics and computing', `physics' and `social sciences'.
+
+In order to solve the problem of classifying projects into disciplines taking into account that interdisciplinary projects can belong to more than one discipline, we identify `pure discipline’ projects that only have research topics from one discipline community and combine them into a labelled dataset that we use to train a machine learning model that predicts project discipline labels based on the (pre-processed) text in their abstract.\footnote{82\% of the projects in the data have research topics that belong to a single discipline. Since the Medical Research Council does not use research topics to label its projects, we assume that all the projects it funds are in the Medical Sciences.} We then use this model
+to predict the discipline mix for all projects in the data.\footnote{We use grid search over a family of linear models and random forests with different levels
+of regularisation and leaf sizes, and three-fold cross validation. The best performing classifier is a logistic regression with L2 regularisation and balanced classes.} 
+
+The two barcharts in the figure above show strong model performance for different
+disciplines (the only exception being physics, for the discipline classifier displays somewhat lower levels of precision and which we have not considered in the rest of our analysis).\footnote{The number of Physics projects in the active mission field was in any case negligible.}
+
 \subsection{Operationalisation of a mission}
+In order to answer our research questions, we need to identify projects that are relevant for a given mission. We do this using the mission statement, in the case of this paper, to `use
+data, Artificial Intelligence and innovation to transform the prevention, early
+diagnosis and treatment of chronic diseases by 2030'. This mission statement
+contains the following components:
+
+\begin{enumerate}
+    \item A subject: Data, Artificial Intelligence and Innovation
+    \item A verb: to Transform
+    \item An object: Prevention, early diagnosis and treatment of chronic diseases
+    \item A timeline: by 2030
+\end{enumerate}
+
+A research project that was perfectly relevant for the mission would contain all of these elements in its abstract. It is however unlikely that we will find such perfect matches. For example, few research projects will focus on more than one dimension of the object. Projects will frequently specialise in a single chronic disease or group of chronic diseases. Few projects will specify the dates when they expect to generate applicable findings - that is a policy goal, not a research goal. We therefore distil the mission statement into the key components that
+we would expect to find in a research project abstract. They are the methodology they use (Artificial Intelligence) and the domain where they operate (Research on chronic conditions). From the point of view of the mission, the methodology is a tool, and the domain is a problem (health challenge) that the methodology seeks to `solve’ or at least alleviate. Note that we remove from the methodologies terms such as ‘data’ or ‘innovation’ that are quite generic and likely to appear in many irrelevant abstracts. Having identified these mission components, we can define a potential mission field and an active mission field. The `potential mission field' comprises all projects that mention at least one mission component - in our case, the the solution (AI) or the challenge (chronic diseases). The `active mission field’ comprises the projects that mention all mission components - in our case, the solution and the challenge: these are the most relevant projects from the point of view of the mission (see diagram below). One dimension of impact of a mission R\&I policy is its ability to grow the active mission field at a faster rate that its mission components.
+
+
 \subsection{Definition and expansion of the mission vocabulary}
 \subsection{Validation of results}
 \subsection{Topic modelling}
