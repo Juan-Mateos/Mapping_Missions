@@ -320,21 +320,38 @@ ABSTRACT EXCERPT: Breast cancer is one of the major causes of death in the moder
 
 \subsection{Topic modelling}
 
-In Subsection \ref{subsec:trajectory} we want to analyse the thematic composition of the active mission field - that is, what are the topics for research combining AI and chronic diseases in the UK - what applications do they seek to develop, with what goal and in what disease area. This should help us produce indicators about the distribution of activity in the mission field, and whether it is becoming more concentrated or diversified. 
+In Subsection \ref{subsec:trajectory} we want to analyse the thematic composition of the active mission field - that is, what are the topics for research combining AI and chronic diseases in the UK: what applications do they seek to develop, with what goal and in what disease area? This could help us calculate indicators about the distribution of activity in the mission field, and whether it is becoming more concentrated or diversified. 
 
-We seek to identify these topics in an automated, unsupervised way using \texttt{TopBSM}, a topic model based on the stochastic block model, a generative model to detect communities in graphs. \texttt{TopSBM} represents corpora of documents containing words as a bipartite graph where words that co-occur in documents are connected in the network, and where documents that share words are also connected. Communities of words in the network represent topics and communities of documents represent segments. Community detection is performed hierarchically making it possible to identify topics (and segments) with different levels of detail. \texttt{TopSBM} has some important advantages over alternative topic modeling algorithms such as Latent Dirichlet allocation: it makes weaker assumptions about the distribution that generates topics in a corpus, and it is able to estimate the number of topics in a document automatically. 
+We seek to identify these topics in an automated, unsupervised way using \texttt{TopBSM}, a topic model based on the stochastic block model, a generative model to detect communities in graphs. \texttt{TopSBM} represents corpora of documents containing words as a bipartite graph where words that co-occur in documents appear connected in the network, and where documents that share words are also connected. Densely connected communities of words in the network represent topics while communities of documents represent clusters. Community detection is performed hierarchically making it possible to identify topics (and segments) with different levels of detail. \texttt{TopSBM} has some important advantages over alternative topic modeling algorithms such as Latent Dirichlet allocation: it makes weaker assumptions about the distribution that generates topics in a corpus, and it estimates the number of topics in a document automatically. 
 
-We have trained \texttt{TopSBM} on our grant corpus after pre-processing (including tokenising, removal of rare word and estimation of bigrams and trigrams). Figure depicts the different levels in the hierarchy of our topic model.
+We have trained \texttt{TopSBM} on our grant corpus after pre-processing (including tokenising, removal of rare word and estimation of bigrams and trigrams). Figure \ref{fig:topic_model} displays the different levels in the hierarchy of our topic model. We present the results of our analysis in Subsection \ref{subsec:trajectory}.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/fig_4_venn.png}
-    \caption{Definition of an active mission field and an active mission field}
-    \label{fig:venn_diagram}
+    \includegraphics[width=0.7\textwidth]{figures/fig_5_topic_model.pdf}
+    \caption{Network representation of the hierarchical topic model trained on our grant corpus. Nodes on the right represent words being progressively clustered into larger communities (topics) while nodes on the left represent documents also aggregated into segments. The center of the diagram represents the transition from a bipartite graph representing words to a bipartite graph representing documents.}
+    \label{fig:topic_model}
 \end{figure}
  
 \section{Findings}
+\label{sec:findings}
+
 \subsection{Activity and evolution of the mission field}
+
+The classification procedure described in Subsection \ref{subsec:vocabulary} leads us to identify $1,157$ projects in the AI category, and $5,056$ projects in the chronic disease category. The potential mission field (set of projects classified as AI or chronic diseases) consists of $6,114$ projects and the active mission field comprising projects classified as both in AI and chronic diseases comprises $99$ projects (1.6\% of the potential mission field).
+
+Figure 6 considers the representation of chronic disease projects in AI compared to the population of projects overall, and the representation of AI projects among the population of chronic disease projects compared to the population of projects overall. If AI methods were distributed randomly across domains, we would expect the share of AI projects in chronic diseases to reflect its share in the total.  As figure 6 shows, this is not the case. AI methods tend to be underrepresented in chronic condition research, and vice versa. We estimate that AI methods are 37\% less likely to be used in the domain of chronic diseases than what we would expect given their overall distribution in the data.\footnote{The differences in proportions are statistically significant according to a $Z-test$.}
+
+This finding suggests that the mission's rationale - to spur the deployment of AI systems in the health domain - is valid given that AI systems are currently underrepresented in it.\footnote{Here, it is worth noting that some AI projects are likely to be basic and therefore not applied in any fields. It would be useful to compare the representation of AI in chronic diseases with other application fields.} 
+
+fig 6
+
+We move in to consider the evolution of activity around the mission field in figure 7. The two linecharts in the left compare the share of all projects (first row) and funding (second row) in a category for every year. The two line-charts on the right consider the share of the active mission field in each mission component. We use 2-year moving averages in both cases to remove some of the volatility in the series.
+
+Fig 7
+
+The first set of figures shows a steep increase in project and funding activity for AI and the active mission field in recent times (and particularly since 2014). By contrast, relative amounts of project activity and funding for chronic diseases has remained stable (or even declined) in recent times. We also see an upwards trend in the share of AI projects focused on chronic diseases, and in the share of chronic disease projects that use AI methods. This trend is less visible when we consider amounts of funding instead of number of projects, suggesting smaller, perhaps exploratory projects. The analysis above suggests that the active mission field is developing as researchers start to apply AI methods in the field of chronic diseases - it is important to note that much of this activity precedes the announcement of the UK grand challenge in 2018, something to take into account when evaluating the impact of this challenge.
+
 \subsection{Feasibility}
 \subsection{Composition of the mission field}
 \subsubsection{Disciplines}
