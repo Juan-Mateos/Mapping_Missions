@@ -422,27 +422,60 @@ Figure \ref{fig:disc_pairs} presents pairwise discipline combinations as a share
 
 \subsubsection{Actors}
 
-One of the goals of mission-driven policy is to lower barriers to entry for new actors in the innovation system. Here we develop indicators capturing whether actors in the fields we have been considering in our analysis (the active mission of field of AI and chronic diseases, and its mission components) are new entrants or seasoned veterans in the UK R&I system.
+One of the goals of mission-oriented innovation policy is to lower barriers to entry for new actors in the innovation system. Here we develop indicators capturing whether actors in the fields we have been considering in our analysis (the active mission of field of AI and chronic diseases, and its mission components) are new entrants or veterans in the UK R\&I system.
 
-First we consider `age’ - here we want to compare the amount of time that organisations in different fields have spent in the R&I system as beneficiaries of research grants. To estimate this, we calculate the first year that an actor received a grant in our data and then average this value over all actors in a given field. Contrary to expectation, we find that organisations participating in the active mission field tend to be older than those participating in AI and chronic diseases (‘All’ set of bars in the
-figure below). However, when we focus our analysis on organisations that participate exclusively in the mission field (thus excluding many large institutions that are active in it and many other fields), we find that the average time that an organisation has spent in the UK R\&D system is lower for participants in the active mission field than is the case for organisations that participate exclusively in projects in the chronic disease field).
+First we consider `age’ - here we want to compare the amount of time that organisations in different fields have spent in the R&I system as beneficiaries of research grants. To estimate this, we calculate the first year that an actor received a grant in our data and then average this value over all actors in a given field. 
 
-Fig 13
+Contrary to expectation, Figure \ref{fig:actor_exp} shows that organisations participating in the active mission field tend to be older than those participating in AI and chronic diseases (‘All’ set of bars in the
+figure below). However, when we focus our analysis on organisations that participate exclusively in the mission field (thus excluding many large institutions that are active in it together with many other fields), we find that the average time that an organisation has spent in the UK R\&D system is lower for participants in the active mission field than is the case for organisations that participate exclusively in the mission components).
 
-The figure below performs a similar exercise but focusing on the number of R&I projects that organisations in different fields have participated in, once again distinguishing between organisations that have participated in projects in a field amongst other things, and those that specialise exclusively in a field, and calculating medians instead of means to reduce the impact of outliers with thousands of projects (such as Russell Group Universities). 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/fig_13_actor_experience.pdf}
+    \caption{Actor mean experience in the innovation system by category and level of specialisation}
+    \label{fig:actor_exp}
+\end{figure}
+
+Figure \ref{fig:actor_projs} performs a similar exercise but focusing on the number of R\&I projects that organisations in different categories have participated in, once again distinguishing between organisations that specialise exclusively in a category, and calculating medians instead of means to reduce the impact of outliers with thousands of projects (such as Russell Group Universities). 
 
 Similarly to what we saw above, participants in the active mission field tend to be more active in the R&I system, while specialists are similar to organisations in other fields, with a median of project participation of one.
 
-We conclude our analysis of mission actors by exploring some of the top organisations in the active mission field. Here we calculate relative advantage indices that normalise an organisation’s share of activity in a field by its share of activity in all fields in order to capture whether it is specialised in a way that suggests a comparative knowledge advantage in a the field. One limitation of RAIs is that their values can be noisy for organisations with lower levels of activity so we focus on organisations with more activity. The figure below displays the 50 organisations with the highest specialisation in our active mission field, extracted from amongst the two hundred organisations with highest overall activity. We see that this list includes a varied range of universities, technology and biomedical companies,
-charities and public sector organisations. Interestingly, only 11 organisations in the top 50 of overall research activity appear in the top 50 for mission field activity, in line with the idea that a focus on missions might benefit less elite actors combining knowledge to address practical challenges.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/fig_14_actor_projects.png}
+    \caption{Actor median number of grants by category and level of specialisation}
+    \label{fig:actor_projs}
+\end{figure}
 
-Figure 14
+Here, we consider who are some of the leading actors in the active mission field. We calculate relative advantage indices that normalise an organisation’s share of activity in a field by its share of activity in all fields in order to capture whether it is specialised in a way that suggests a comparative knowledge advantage in a the field. One limitation of RAIs is that their values can be noisy for organisations with lower levels of activity so we focus on larger organisations. The figure below displays the 50 organisations with the highest specialisation in our active mission field, extracted from amongst the two hundred organisations with highest overall activity. We see that this list includes a varied range of universities, technology and biomedical companies, charities and public sector organisations. Interestingly, only 11 organisations in the top 50 of overall research activity appear in the top 50 for mission field activity, in line with the idea that a focus on missions might benefit new and smaller actors in the innovation system.
 
-Finally, we consider the link between an organisation’s share of all activity in different mission fields, and in the total of publicly funded activity in the UK. The heatmap below presents bivariate rank correlations for those variables. Its results further reinforce the idea that activity around missions might create new opportunities for organisations outside the elite of the R&I system: the correlation between share of activity in a mission field and share of total activity is lower than for the mission components. Also we note with interest that the correlation between share of mission components and share of mission activity is stronger for AI than chronic conditions, suggesting that organisations with strong AI capabilities have been able to deploy them to address chronic diseases instead of the other way around, although this situation might be changing as the number of Medical Sciences projects applying AI methods increase.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig_15_top_orgs.pdf}
+    \caption{Revealed advantage index in different research categories}
+    \label{fig:top_orgs}
+\end{figure}
 
-Figure 15
+Finally, we consider the link between an organisation’s share of all activity in different mission fields, and in the total of publicly funded activity in the UK. Figure \ref{fig:share_corr} presents bivariate rank correlations for those variables. Its results further reinforce the idea that activity around missions might create new opportunities for organisations outside the elite of the R&I system: the correlation between share of activity in a mission field and share of total activity is lower than for the mission components. Also we note with interest that the correlation between share of mission components and share of mission activity is stronger for AI than chronic diseases, suggesting that organisations with strong AI capabilities have been more active deploying them to address chronic diseases, although this situation could change as the number of Medical Sciences projects deploying AI methods increase.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/fig_16_correlation.pdf}
+    \caption{Correlation between institutional shares of activity in the mission field, its components and total research activity}
+    \label{fig:share_corr}
+\end{figure}
 
 \subsection{Outputs}
+The criteria for mission selection we outlined above specify that a mission should be `ambitious but feasible’ - one way to explore this issue is by considering the ability of projects in the mission field to generate applied outputs. We explore this question with an analysis of output data available from GtR.
+
+The figure below shows the ‘revealed comparative advantage’ of a field in generating different types of outputs. We produce this indicator by calculating the mean number of outputs per project in the different fields and normalising by the mean of all fields. A score above 1 indicates that, on average, a field tends to generate more outputs in a category than
+the others we are comparing it with. We focus the analysis on projects started after 2014 to control for differences in field ages (as we showed previously, active mission field and AI projects tend to be younger and therefore have has less time to generate outputs than projects in the chronic disease field).
+
+Our analysis suggests that the active mission field is technically feasible. Its projects tend to generate more technology (this dimensions captures software development activities in particular) and spin-outs than the average.
+Here, it is worth noting that the overall levels of output are low (for example only 10\% of projects generate software outputs), and that the
+‘products’ output category is predominantly used to identify biomedical products.
+
+
 \subsection{Trajectory of the mission field}
 \label{subsec:trajectory}
 \section{Discussion and conclusions}
