@@ -481,12 +481,14 @@ Our analysis suggests high levels of technological readiness in the active missi
     \label{fig:outputs}
 \end{figure}
 
-\subsection{Trajectory of the active mission field}
+\subsection{Trajectories of the active mission field}
 \label{subsec:trajectory}
 
 We conclude our summary of findings with the results of our analysis of the trajectories in the active mission field. Here, we are particularly interested in understanding the extent to which the trajectories being explored in the mission field are diversified or concentrated, which of the mission components dominates the mission field, what is the role of various research funders (Research Councils) in maintaining diversity and exploration in the active mission field, and whether there are any disease areas which are currently being neglected in the mission field.
 
-Our analysis is based on the \texttt{TopSBM} analysis that we outlined in Subsection \ref{subsec:topic}. Table \ref{tab:topics} presents the topics that we extracted through this analysis at the second level of aggregation (comprising 71 topics).\footnote{The first level of aggregation has 491 topics, which is too detailed for reporting here, while the third level of aggregation comprises 13 topics, which is too aggregated.}. We have classified topics into their `origin' mission component depending on whether they tend to be over-represented in the AI mission component or the chronic disease mission component.\footnote{That is, if the share of projects with presence in the topic in a mission component normalised by the share in the potential mission field are above one}. In doing this, we hope to understand 
+Our analysis is based on the \texttt{TopSBM} analysis that we outlined in Subsection \ref{subsec:topic}. Table \ref{tab:topics} presents the topics that we extracted through this analysis at the second level of aggregation (comprising 71 topics).\footnote{The first level of aggregation has 491 topics, which is too detailed for reporting here, while the third level of aggregation comprises 13 topics, which is too aggregated.}. We have classified topics into their `origin' mission component depending on whether they tend to be over-represented in the AI mission component or the chronic disease mission component.\footnote{That is, if the share of projects with presence in the topic in a mission component normalised by the share in the potential mission field are above one}. In doing this, we aim to understand the level of influence of our two mission components in the active mission field. This is important because this influence could shape the types of problems that are tackled and the approaches that are used. One could for example imagine that researchers from the AI community will be specially attracted to domains with the large datasets required to train modern deep learning algorithms. Researchers approaching the field from a medical perspective may prefer to focus on disease areas with higher prevalence and costs for the medical system. 
+
+As we see in Table \ref{tab:topics}, the AI set of topics includes terms related to robotics, language, networks, imaging and algorithms (as well as interestingly, a topic related to ethics). The Chronic Disease sets mostly refers to disease areas including asthma, diabetes, pregnancy, cancer or HIV, as well as scientific terms in biotechnology such as cells or DNA. We also detect some noisy topics, and others capturing very generic collection of terms that researchers use when writing grants (eg \textbf{also research use new}).\footnote{A next step for us will be to explore potential strategies to remove these topics, for example by filtering out low-salience terms from the data before training the topic model.}
 
 %\begin{landscape}
 \begin{table}
@@ -494,7 +496,7 @@ Our analysis is based on the \texttt{TopSBM} analysis that we outlined in Subsec
 \small
 \begin{tabular}{ll}
 \toprule
-                                                Artificial Intelligence &                                            Chronic \\
+                                                Artificial Intelligence &                                            Chronic Disease \\
 \hline                                                
 \midrule
                   team informed algorithm accounts &              inflammation asthma lung inflammatory \\
@@ -536,12 +538,12 @@ Our analysis is based on the \texttt{TopSBM} analysis that we outlined in Subsec
 \hline
 \bottomrule
 \end{tabular}
-
 \caption{Topics by origin (ranked by relative specialisation in each mission component}
 \end{table}
 \label{tab:topics}
 %\end{landscape}
 
+Figure \ref{fig:topic_distr} shows the percentage of active mission field projects where different topics are present, and their origin. We observe that the most prevalent topics are more strongly related to AI. Although some of them are quite generic and relate to impacts, results and methods, others are more AI-specific areas, concerning topics such as data, prediction, networks and applications. While this result could reflect the dominance of AI approaches in the active mission field (in line with the importance of computer science in the active mission field highlighted in Figure \ref{fig:disc_mix}), it could also be explained by the fact that AI techniques and methods are `general purpose' and applicable to many different projects, while disease areas will be more important in specific projects and less likely to appear across the corpus. Supporting this idea, the top chronic disease related topics that appear in the data is a generic one with terms such as `disease', `condition' and `symptom'. 
 
 \begin{figure}[!ht]
     \centering
@@ -549,6 +551,8 @@ Our analysis is based on the \texttt{TopSBM} analysis that we outlined in Subsec
     \caption{Share of projects with topic presence by origin}
     \label{fig:topic_distr}
 \end{figure}
+
+In Figure \ref{fig:topic_comp} we present the topic composition of all projects in the active mission field ranked by decreasing importance in the chronic disease-related group. The second panel presents the year when each project was funded in the vertical axis, the level of funding it received in the size of the marker, and the funder in its colour. Perhaps unsurprisingly
 
 \begin{figure}[!ht]
     \centering
